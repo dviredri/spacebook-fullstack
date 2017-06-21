@@ -2,9 +2,23 @@ var SpacebookApp = function() {
 
   var posts = [];
 
+  $.ajax({
+  method: "GET",
+  url: '/posts',
+  dataType: "json",
+  success: function(data) {
+    posts=data;
+    console.log(data);
+    _renderPosts();
+  },
+  error: function(jqXHR, textStatus, errorThrown) {
+    console.log(textStatus);
+  }
+}); 
+
   var $posts = $(".posts");
 
-  _renderPosts();
+
 
   function _renderPosts() {
     $posts.empty();
@@ -57,7 +71,9 @@ var SpacebookApp = function() {
     removePost: removePost,
     addComment: addComment,
     deleteComment: deleteComment,
+    _renderPosts: _renderPosts
   };
+
 };
 
 var app = SpacebookApp();
@@ -112,3 +128,7 @@ $posts.on('click', '.remove-comment', function() {
 
   app.deleteComment(postIndex, commentIndex);
 });
+
+
+
+
